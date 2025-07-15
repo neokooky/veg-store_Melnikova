@@ -1,0 +1,19 @@
+.cart-quantity {
+  display: inline-block;
+  color: black;
+  width: 18px;
+  height: 18px;
+  background-color: white;
+  border-radius: 8px;
+  margin-right: 6px;
+}
+
+.cart-image {
+  margin-left: 6px;
+}
+
+.empty-cart {
+  flex-direction: column !important;
+  gap: 0 !important;
+  color: rgba(134, 142, 150, 1);
+}
