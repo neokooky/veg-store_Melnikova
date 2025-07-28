@@ -35,7 +35,8 @@ describe("App component", function () {
     expect(item).toBeInTheDocument(); //Проверяем наименование первой карточки товара
 
     const cardContainer = item.closest(".card");
-    const cardContainerWithin = within(cardContainer);
+    // if (!cardContainer) throw new Error("Error");
+    const cardContainerWithin = within(cardContainer as HTMLElement);
 
     const images = cardContainerWithin.getAllByRole("img");
     expect(images[0]).toBeInTheDocument(); //Проверяем отображение картинки в карточке
@@ -54,6 +55,9 @@ describe("App component", function () {
   it("changes quantity in card", async () => {
     const brocolli = await screen.findByText(/Brocolli/i);
     const card = brocolli.closest(".card");
+    if (!card || !(card instanceof HTMLElement)) {
+      throw new Error("Элемент не найден");
+    }
     const cardWithin = within(card);
     const minusButton = cardWithin.getByAltText(/decrease/i);
     const plusButton = cardWithin.getByAltText(/increase/i);
@@ -74,6 +78,9 @@ describe("App component", function () {
   it("changes quantity in cart", async () => {
     const brocolli = await screen.findByText(/Brocolli/i);
     const card = brocolli.closest(".card");
+    if (!card || !(card instanceof HTMLElement)) {
+      throw new Error("Элемент не найден");
+    }
     const cardWithin = within(card);
     const addToCartButton = cardWithin.getByText(/Add to cart/i);
 
@@ -92,6 +99,9 @@ describe("App component", function () {
   it("calculates total price correctly in cart", async () => {
     const broccoli = await screen.findByText(/Brocolli/i);
     const card = broccoli.closest(".card");
+    if (!card || !(card instanceof HTMLElement)) {
+      throw new Error("Элемент не найден");
+    }
     const cardWithin = within(card);
 
     const plusButton = cardWithin.getByAltText(/increase/i);
@@ -117,6 +127,9 @@ describe("App component", function () {
   it("shows added product in cart dropdown", async () => {
     const cauliFlower = await screen.findByText(/Cauliflower/i);
     const card = cauliFlower.closest(".card");
+    if (!card || !(card instanceof HTMLElement)) {
+      throw new Error("Элемент не найден");
+    }
     const cardWithin = within(card);
 
     const addToCartButton = cardWithin.getByText(/Add to cart/i);
@@ -129,7 +142,7 @@ describe("App component", function () {
     fireEvent.click(cartButton);
 
     const productNameInCart = await screen.findByText(/Cauliflower/i);
-    expect(productNameInCart).toBeInTheDocument();
+    expect(productNameInCart).toBeInTheDocument(); //Проверяем что наименование продукта отображается в дропдауне
   });
 
   it("displays empty cart message", async () => {
@@ -140,12 +153,15 @@ describe("App component", function () {
     fireEvent.click(cartButton);
 
     const emptyMessage = await screen.findByText(/Your cart is empty!/i);
-    expect(emptyMessage).toBeInTheDocument();
+    expect(emptyMessage).toBeInTheDocument(); //Проверяем что в пустой корзине отображается нужное сообщение
   });
 
   it("updates item quantity in cart when clicking plus and minus", async () => {
     const broccoli = await screen.findByText(/Brocolli/i);
     const card = broccoli.closest(".card");
+    if (!card || !(card instanceof HTMLElement)) {
+      throw new Error("Элемент не найден");
+    }
     const cardWithin = within(card);
 
     const addToCartButton = cardWithin.getByText(/Add to cart/i);
@@ -165,7 +181,7 @@ describe("App component", function () {
     expect(quantityAtMiniCard).toHaveTextContent("1");
 
     fireEvent.click(plusButton);
-    expect(quantityInCart).toHaveTextContent("2");
+    expect(quantityInCart).toHaveTextContent("2"); //Проверяем что при клике на +/- в корзине кол-во продукта меняется
     expect(quantityAtMiniCard).toHaveTextContent("2");
 
     fireEvent.click(minusButton);
@@ -176,6 +192,9 @@ describe("App component", function () {
   it("updates item quantity in cart and removes product when quantity < 1", async () => {
     const broccoli = await screen.findByText(/Brocolli/i);
     const card = broccoli.closest(".card");
+    if (!card || !(card instanceof HTMLElement)) {
+      throw new Error("Элемент не найден");
+    }
     const cardWithin = within(card);
 
     const addToCartButton = cardWithin.getByText(/Add to cart/i);
@@ -191,7 +210,7 @@ describe("App component", function () {
     const minusButton = await screen.findByAltText(/Minus/i);
     const quantityInCart = screen.getByTestId("quantity-in-cart");
 
-    expect(quantityInCart).toHaveTextContent("1");
+    expect(quantityInCart).toHaveTextContent("1"); //Проверяем что при количестве продукта в корзине меньше 1 он удаляется из корзины
 
     fireEvent.click(plusButton);
     expect(quantityInCart).toHaveTextContent("2");

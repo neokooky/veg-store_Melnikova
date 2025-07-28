@@ -5,13 +5,13 @@ import cart from "../../assets/cart.svg";
 import cartEmpty from "../../assets/cart_empty.png";
 
 import { MiniCard } from "../../components/MiniCard/MiniCard";
-import { type ProductsProps } from "../../pages/Store/Store";
+import { type Product } from "../../pages/Store/Store";
 
 type Props = {
   cartQuantity: number;
   cartItems: { [key: number]: number };
   onUpdateQuantity: (id: number, quantity: number) => void;
-  products: ProductsProps[];
+  products: Product[];
 };
 
 export const ButtonMenu = ({
