@@ -4,10 +4,10 @@ import styles from "./ProductsList.module.scss";
 import cartGreen from "../../assets/cart-green.svg";
 import minusButton from "../../assets/minus-button.svg";
 import plusButton from "../../assets/plus-button.svg";
-import type { ProductsProps } from "../../pages/Store/Store";
+import type { Product } from "../../pages/Store/Store";
 
 type ProductsListProps = {
-  products: ProductsProps[];
+  products: Product[];
   onAddToCart: (id: number, quantity: number) => void;
 };
 

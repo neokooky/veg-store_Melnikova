@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { LoaderCircle } from "../../UI/LoaderCircle/LoaderCircle";
 import { Text } from "@mantine/core";
 
-export type ProductsProps = {
+export type Product = {
   id: number;
   name: string;
   price: number;
@@ -13,7 +13,7 @@ export type ProductsProps = {
 
 export const Store = () => {
   const [cartItems, setCartItems] = useState<{ [key: number]: number }>({});
-  const [products, setProducts] = useState<Array<ProductsProps>>([]);
+  const [products, setProducts] = useState<Array<Product>>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -45,7 +45,14 @@ export const Store = () => {
         const response = await fetch(
           "https://res.cloudinary.com/sivadass/raw/upload/v1535817394/json/products.json "
         );
-        const data: Array<ProductsProps> = await response.json();
+
+        if (!response.ok) {
+          throw new Error(
+            `Ошибка запроса: ${response.status} ${response.statusText}`
+          );
+        }
+
+        const data: Array<Product> = await response.json();
         setProducts(data);
       } catch (err) {
         setError((err as Error).message || "Неизвестная ошибка");
