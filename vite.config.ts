@@ -17,4 +17,5 @@ export default defineConfig({
     globals: true,
     setupFiles: "./setupTests.ts",
   },
+  base: "/veg-store_Melnikova/",
 });
