@@ -3,6 +3,9 @@ import { Header } from "../../components/Header";
 import { useEffect, useState } from "react";
 import { LoaderCircle } from "../../UI/LoaderCircle/LoaderCircle";
 import { Text } from "@mantine/core";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProducts } from "../../store/reducer";
+import type { AppDispatch, RootState } from "../../store/store";
 
 export type Product = {
   id: number;
@@ -12,10 +15,16 @@ export type Product = {
 };
 
 export const Store = () => {
+  // const [products, setProducts] = useState<Array<Product>>([]);
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState<string | null>(null);
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { products, loading, error } = useSelector(
+    (state: RootState) => state.products
+  );
+
   const [cartItems, setCartItems] = useState<{ [key: number]: number }>({});
-  const [products, setProducts] = useState<Array<Product>>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   const handleAddToCart = (id: number, quantity: number) => {
     setCartItems((prev) => ({
@@ -40,30 +49,8 @@ export const Store = () => {
   );
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch(
-          "https://res.cloudinary.com/sivadass/raw/upload/v1535817394/json/products.json "
-        );
-
-        if (!response.ok) {
-          throw new Error(
-            `Ошибка запроса: ${response.status} ${response.statusText}`
-          );
-        }
-
-        const data: Array<Product> = await response.json();
-        setProducts(data);
-      } catch (err) {
-        setError((err as Error).message || "Неизвестная ошибка");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    //setTimeout(fetchProducts, 500);
-    fetchProducts();
-  }, []);
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
   if (loading) {
     return <LoaderCircle />;

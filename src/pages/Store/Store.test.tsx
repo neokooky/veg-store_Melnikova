@@ -1,14 +1,16 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
-import App from "../../App";
-import { expect, it, describe, beforeEach } from "vitest";
+import CardsList from "../../App";
+import { expect, it, describe, beforeEach, vi } from "vitest";
 import { MantineProvider } from "@mantine/core";
 import "@testing-library/jest-dom";
 
-describe("App component", function () {
+global.fetch = vi.fn();
+
+describe("renders CardsList", function () {
   beforeEach(async () => {
     render(
       <MantineProvider>
-        <App />
+        <CardsList />
       </MantineProvider>
     );
   });
@@ -35,7 +37,6 @@ describe("App component", function () {
     expect(item).toBeInTheDocument(); //Проверяем наименование первой карточки товара
 
     const cardContainer = item.closest(".card");
-    // if (!cardContainer) throw new Error("Error");
     const cardContainerWithin = within(cardContainer as HTMLElement);
 
     const images = cardContainerWithin.getAllByRole("img");

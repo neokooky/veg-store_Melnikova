@@ -40,6 +40,7 @@ export const ProductsList = ({ onAddToCart, products }: ProductsListProps) => {
                 withBorder
                 w={302}
                 className="card"
+                key={product.id}
               >
                 <Card.Section>
                   <Image src={product.image} height={276} alt={product.name} />
